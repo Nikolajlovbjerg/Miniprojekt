@@ -5,7 +5,7 @@ namespace MiniProjApi.Data
 {
     public class PostsContext : DbContext
     {
-        public DbSet<User> Users => Set<User>();
+        /*public DbSet<User> Users => Set<User>();*/
         public DbSet<Posts> Post => Set<Posts>();
 
         public string DbPath { get; }

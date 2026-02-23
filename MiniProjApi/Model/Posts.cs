@@ -8,6 +8,16 @@ namespace MiniProjApi.Model
 {
     public class Posts
     {
+        public Posts(string Title, DateTime Date, string username, int upVotes, int downVotes, List<Comments> Comments)
+        {
+            this.Title = Title;
+            this.Date = Date;
+            this.Username = username;
+            this.UpVotes = upVotes;
+            this.DownVotes = downVotes;
+            this.Comments = Comments;
+        }
+        
         public int PostId { get; set; }
         public int CommentId  { get; set; }
         public string Username { get; set; }

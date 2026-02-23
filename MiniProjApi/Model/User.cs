@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace MiniProjApi.Model
 {
-    internal class User
+    public class User
     {
+        public string Name { get; set; }
+        public int UserId { get; set; }
     }
 }

@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿//using system;
+//using system.collections.generic;
+//using system.linq;
+//using system.text;
+//using system.threading.tasks;
 
-namespace MiniProjApi.Model
-{
-    public class User
-    {
-        public string Name { get; set; }
-    }
-}
+//namespace miniprojapi.model
+//{
+//    public class user
+//    {
+//        public string name { get; set; }
+//    }
+//}

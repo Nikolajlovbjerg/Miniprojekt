@@ -13,5 +13,7 @@ namespace MiniProjApi.Model
         public DateTime Date { get; set; }
         public int UpVotes { get; set; }
         public int DownVotes { get; set; }
+        
+        public List<Comments> Comments { get; set; }
     }
 }

@@ -8,24 +8,23 @@ namespace MiniProjApi.Model
 {
     public class Posts
     {
-        public Posts(string Title, DateTime Date, string username, int upVotes, int downVotes, List<Comments> Comments)
+        public Posts(string Title, DateTime Date, string username, int upVotes, int downVotes)
         {
             this.Title = Title;
             this.Date = Date;
             this.Username = username;
             this.UpVotes = upVotes;
             this.DownVotes = downVotes;
-            this.Comments = Comments;
+            Comments = new List<Comments>();
         }
         
         public int PostId { get; set; }
-        public int CommentId  { get; set; }
         public string Username { get; set; }
         public string Title { get; set; }
         public DateTime Date { get; set; }
         public int UpVotes { get; set; }
         public int DownVotes { get; set; }
         
-        public List<Comments> Comments { get; set; }
+        public List<Comments> Comments { get; set; } = new List<Comments>();
     }
 }

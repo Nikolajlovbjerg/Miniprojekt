@@ -2,6 +2,7 @@ namespace MiniProjApi.Model;
 
 public class Comments
 {
+    public Comments() { }
     public Comments(string username, int upVotes, int downVotes, string content, DateTime date)
     {
         this.Username = username;
@@ -13,6 +14,9 @@ public class Comments
     
     public int CommentId { get; set; }
     public int PostId { get; set; }
+
+    public Posts Post { get; set; }
+
     public DateTime  Date { get; set; }
     public int UpVotes { get; set; }
     public int DownVotes { get; set; }

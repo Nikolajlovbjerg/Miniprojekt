@@ -1,33 +1,34 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MiniProjApi.Model;
 
-namespace MiniProjApi.Data
+namespace MiniProjApi.Data;
+
+public class PostsContext : DbContext
 {
-    public class PostsContext : DbContext
+    public PostsContext(DbContextOptions<PostsContext> options)
+        : base(options) { }
+
+    public DbSet<Posts> Posts => Set<Posts>();  // Only DbSet
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        /*public DbSet<User> Users => Set<User>();*/
-        public DbSet<Posts> Post => Set<Posts>();
-
-        public string DbPath { get; }
-
-        public PostsContext()
+        modelBuilder.Entity<Posts>(post =>
         {
-            DbPath = "bin/MiniProjApi.db";
-        }
+            post.ToTable("Posts");
+            post.HasKey(p => p.PostId);  // ✅ Primary key for Posts
 
-        public PostsContext(DbContextOptions<PostsContext> options)
-            : base(options)
-        {
-            // Den her er tom. Men ": base(options)" sikre at constructor
-            // på DbContext super-klassen bliver kaldt.
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder options)
-           => options.UseSqlite($"Data Source={DbPath}");
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Posts>().ToTable("Posts");
-        }
+            // Configure Comments as owned
+            post.OwnsMany(p => p.Comments, c =>
+            {
+                c.WithOwner().HasForeignKey("PostId");  // Foreign key
+                c.Property<int>("CommentId");            // Shadow PK
+                c.HasKey("CommentId");                   // Set shadow PK
+                c.Property(c => c.Username);
+                c.Property(c => c.Content);
+                c.Property(c => c.Date);
+                c.Property(c => c.UpVotes);
+                c.Property(c => c.DownVotes);
+            });
+        });
     }
 }

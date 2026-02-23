@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MiniProjApi.Model;
 
-namespace Data
+namespace MiniProjApi.Data
 {
     public class PostsContext : DbContext
     {

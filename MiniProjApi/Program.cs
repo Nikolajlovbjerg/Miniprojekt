@@ -1,63 +1,65 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http.Json;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using MiniProjApi.Data;
+using MiniProjApi.Service;
 using MiniProjApi.Model;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services
-builder.Services.AddControllers();
-
-// Add DbContext (IMPORTANT)
 builder.Services.AddDbContext<PostsContext>(options =>
-    options.UseSqlite("Data Source=MiniProjApi.db"));
+    options.UseSqlite("Data Source=bin/MiniProjApi.db"));
 
-// Add CORS
+// Registrer DataService så den kan bruges i endpoints
+builder.Services.AddScoped<DataService>();
+
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowMyOrigin",
-        policy =>
-        {
-            policy.AllowAnyOrigin()
-                  .AllowAnyHeader()
-                  .AllowAnyMethod();
-        });
+    options.AddPolicy("AllowAll", policy => policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 });
 
 var app = builder.Build();
-
-// Use CORS
-app.UseCors("AllowMyOrigin");
-
-app.MapControllers();
-
+app.UseCors("AllowAll");
 
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<PostsContext>();
-
-    // Ensure database is created
     db.Database.EnsureCreated();
-
-    // Seed only if database is empty
     if (!db.Posts.Any())
     {
-        // Create a comment
-        var comment = new Comments("Peter", 77, 9, "Morten er grim", DateTime.Now);
-
-        // Create a post and add the comment
-        var post = new Posts("SupersejTittel", DateTime.Now, "Jens Jensen", 5, 100);
-        post.Comments.Add(comment);
-
-        // Add and save
-        db.Posts.Add(post);
-        db.SaveChanges();
+        var service = scope.ServiceProvider.GetRequiredService<DataService>();
+        service.CreatePost("Velkommen til Reddit!", "Dette er den første tråd.", null, "Admin");
     }
 }
 
 
+app.MapGet("/api/posts", (DataService service) => service.GetPosts());
+
+app.MapGet("/api/posts/{id}", (DataService service, int id) => {
+    var post = service.GetPost(id);
+    return post is not null ? Results.Ok(post) : Results.NotFound();
+});
+
+app.MapPost("/api/posts", (DataService service, CreatePostRequest req) => {
+    service.CreatePost(req.Title, req.Content, req.Link, req.Username);
+    return Results.Created();
+});
+
+
+app.MapPost("/api/posts/{id}/comments", (DataService service, int id, CreateCommentRequest req) => {
+    service.AddComment(id, req.Text, req.Username);
+    return Results.Created();
+});
+
+
+app.MapPut("/api/posts/{id}/vote", (DataService service, int id, bool upvote) => {
+    service.VotePost(id, upvote);
+    return Results.NoContent();
+});
+
 app.Run();
+
+// Hjælpe-records til JSON body
+public record CreatePostRequest(string Title, string? Content, string? Link, string Username);
+public record CreateCommentRequest(string Text, string Username);

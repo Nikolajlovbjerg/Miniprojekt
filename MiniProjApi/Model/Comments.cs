@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace MiniProjApi.Model;
 
 public class Comments
@@ -12,6 +14,7 @@ public class Comments
         this.Date = date;
     }
     
+    [Key]
     public int CommentId { get; set; }
     public int PostId { get; set; }
 

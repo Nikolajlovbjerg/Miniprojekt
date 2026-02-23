@@ -19,6 +19,8 @@ namespace MiniProjApi.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Username = table.Column<string>(type: "TEXT", nullable: false),
                     Title = table.Column<string>(type: "TEXT", nullable: false),
+                    Content = table.Column<string>(type: "TEXT", nullable: true),
+                    Link = table.Column<string>(type: "TEXT", nullable: true),
                     Date = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UpVotes = table.Column<int>(type: "INTEGER", nullable: false),
                     DownVotes = table.Column<int>(type: "INTEGER", nullable: false)
@@ -35,7 +37,6 @@ namespace MiniProjApi.Migrations
                     CommentId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     PostId = table.Column<int>(type: "INTEGER", nullable: false),
-                    PostId1 = table.Column<int>(type: "INTEGER", nullable: false),
                     Date = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UpVotes = table.Column<int>(type: "INTEGER", nullable: false),
                     DownVotes = table.Column<int>(type: "INTEGER", nullable: false),
@@ -51,23 +52,12 @@ namespace MiniProjApi.Migrations
                         principalTable: "Posts",
                         principalColumn: "PostId",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Comments_Posts_PostId1",
-                        column: x => x.PostId1,
-                        principalTable: "Posts",
-                        principalColumn: "PostId",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_PostId",
                 table: "Comments",
                 column: "PostId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Comments_PostId1",
-                table: "Comments",
-                column: "PostId1");
         }
 
         /// <inheritdoc />

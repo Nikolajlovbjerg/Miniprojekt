@@ -9,6 +9,8 @@ namespace MiniProjApi.Model
     public class Posts
     {
         public int PostId { get; set; }
+        public int CommentId  { get; set; }
+        public string Username { get; set; }
         public string Title { get; set; }
         public DateTime Date { get; set; }
         public int UpVotes { get; set; }

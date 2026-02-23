@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace MiniProjApi.Model
 {
-    internal class Posts
+    public class Posts
     {
+        public int PostId { get; set; }
+        public string Title { get; set; }
+        public DateTime Date { get; set; }
+        public int UpVotes { get; set; }
+        public int DownVotes { get; set; }
     }
 }

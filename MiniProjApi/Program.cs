@@ -60,6 +60,5 @@ app.MapPut("/api/posts/{id}/vote", (DataService service, int id, bool upvote) =>
 
 app.Run();
 
-// Hjælpe-records til JSON body
 public record CreatePostRequest(string Title, string? Content, string? Link, string Username);
 public record CreateCommentRequest(string Text, string Username);

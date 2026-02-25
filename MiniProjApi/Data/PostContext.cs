@@ -6,7 +6,10 @@ namespace MiniProjApi.Data;
 public class PostsContext : DbContext
 {
     public PostsContext(DbContextOptions<PostsContext> options)
-        : base(options) { }
+        : base(options)
+    {
+        
+    }
 
     public DbSet<Posts> Posts => Set<Posts>();  
 

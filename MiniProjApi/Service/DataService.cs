@@ -63,4 +63,15 @@ public class DataService
             db.SaveChanges();
         }
     }
+    
+    public void VoteComment(int commentId, bool upvote)
+    {
+        var comment = db.Set<Comments>().Find(commentId);
+    
+        if (comment != null)
+        {
+            if (upvote) comment.UpVotes++; else comment.DownVotes++;
+            db.SaveChanges();
+        }
+    }
 }

@@ -22,9 +22,9 @@ namespace MiniProjApi.Model
         [Key]
         public int PostId { get; set; }
         public string Username { get; set; }
-        public string Title { get; set; }
-        public string Content { get; set; } 
-        public string Link { get; set; }    
+        public string? Title { get; set; }
+        public string? Content { get; set; } 
+        public string? Link { get; set; }    
         public DateTime Date { get; set; }
         public int UpVotes { get; set; }
         public int DownVotes { get; set; }

@@ -5,7 +5,7 @@ See how the links are made in 'PostList.razor'.
 @page "/post/{id}"
 
 @using kreddit_app.Data;
-@using Model;
+@using shared.Model;
 @inject ApiService apiService
 
 <PageTitle>Kreddit</PageTitle>
@@ -28,7 +28,7 @@ else
 {
     <div class="contents">
         <h4>@Post.Title</h4>
-        <p><strong>User: @Post.Username, Votes: @(Post.UpVotes - Post.DownVotes)</strong></p>
+        <p><strong>User: @Post.User.Username, Votes: @(Post.Upvotes - Post.Downvotes)</strong></p>
         <p>@Post.Content</p>
     </div>
 
@@ -43,11 +43,11 @@ else
         @foreach (var comment in Post.Comments)
         {
             <tr>
-                <td>@comment.Username</td>
+                <td>@comment.User.Username</td>
                 <td>@comment.Content</td>
-                <td>@(comment.UpVotes - comment.DownVotes)</td>
-                <td><button @onclick="() => Upvote(comment.PostId)">Upvote</button></td>
-                <td><button @onclick="() => Downvote(comment.PostId)">Downvote</button></td>
+                <td>@(comment.Upvotes - comment.Downvotes)</td>
+                <td><button @onclick="() => Upvote(comment.Id)">Upvote</button></td>
+                <td><button @onclick="() => Downvote(comment.Id)">Downvote</button></td>
             </tr>
         }
     </table>
@@ -62,7 +62,7 @@ else
     [Parameter]
     public string Id { get; set; }
     public int PostId { get { return int.Parse(Id); } }
-    public Posts Post { get; set; }
+    public Post Post { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

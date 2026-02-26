@@ -2,8 +2,7 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using Microsoft.Extensions.Configuration;
 
-using kreddit_app.Model;
-using kreddit;
+using shared.Model;
 
 namespace kreddit_app.Data;
 
@@ -20,19 +19,19 @@ public class ApiService
         this.baseAPI = configuration["base_api"];
     }
 
-    public async Task<Posts[]> GetPosts()
+    public async Task<Post[]> GetPosts()
     {
         string url = $"{baseAPI}posts/";
-        return await http.GetFromJsonAsync<Posts[]>(url);
+        return await http.GetFromJsonAsync<Post[]>(url);
     }
 
-    public async Task<Posts> GetPost(int id)
+    public async Task<Post> GetPost(int id)
     {
         string url = $"{baseAPI}posts/{id}/";
-        return await http.GetFromJsonAsync<Posts>(url);
+        return await http.GetFromJsonAsync<Post>(url);
     }
 
-    public async Task<Comments> CreateComment(string content, int postId, int userId)
+    public async Task<Comment> CreateComment(string content, int postId, int userId)
     {
         string url = $"{baseAPI}posts/{postId}/comments";
      
@@ -43,7 +42,7 @@ public class ApiService
         string json = msg.Content.ReadAsStringAsync().Result;
 
         // Deserialize the JSON string to a Comment object
-        Comments? newComment = JsonSerializer.Deserialize<Comments>(json, new JsonSerializerOptions {
+        Comment? newComment = JsonSerializer.Deserialize<Comment>(json, new JsonSerializerOptions {
             PropertyNameCaseInsensitive = true // Ignore case when matching JSON properties to C# properties 
         });
 
@@ -51,7 +50,7 @@ public class ApiService
         return newComment;
     }
 
-    public async Task<Posts> UpvotePost(int id)
+    public async Task<Post> UpvotePost(int id)
     {
         string url = $"{baseAPI}posts/{id}/upvote/";
 
@@ -62,7 +61,7 @@ public class ApiService
         string json = msg.Content.ReadAsStringAsync().Result;
 
         // Deserialize the JSON string to a Post object
-        Posts? updatedPost = JsonSerializer.Deserialize<Posts>(json, new JsonSerializerOptions {
+        Post? updatedPost = JsonSerializer.Deserialize<Post>(json, new JsonSerializerOptions {
             PropertyNameCaseInsensitive = true // Ignore case when matching JSON properties to C# properties
         });
 

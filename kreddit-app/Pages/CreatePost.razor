@@ -1,6 +1,7 @@
 ﻿@using kreddit_app.Data;
 @using Model;
 @inject ApiService apiService
+@inject NavigationManager Nav
 
 <div>
     <br />
@@ -15,8 +16,6 @@
     private string? postContent;
     private string? postUsername;
 
-    @inject NavigationManager NavigationManager;
-
     private async void CreateNewPost()
     {
         Console.WriteLine("Creating new post");
@@ -30,6 +29,6 @@
 
         await apiService.CreatePost(postTitle, postContent, postUsername); // UserID: 2
         StateHasChanged();
-        NavigationManager.NavigateTo("/", true);
+        Nav.NavigateTo("/", true);
     }
 }

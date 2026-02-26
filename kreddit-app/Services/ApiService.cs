@@ -3,6 +3,7 @@ using System.Text.Json;
 using Microsoft.Extensions.Configuration;
 
 using kreddit_app.Model;
+using kreddit_app.Pages;
 
 namespace kreddit_app.Data;
 
@@ -67,5 +68,25 @@ public class ApiService
 
         // Return the updated post (vote increased)
         return updatedPost;
+    }
+
+    public async Task<Posts> CreatePost(string titel, string content, string username)
+    {
+        string url = $"{baseAPI}posts";
+
+        // Post JSON to API, save the HttpResponseMessage
+        HttpResponseMessage msg = await http.PostAsJsonAsync(url, new { titel, content, username });
+
+        // Get the JSON string from the response
+        string json = msg.Content.ReadAsStringAsync().Result;
+
+        // Deserialize the JSON string to a Comment object
+        Posts? newPosts = JsonSerializer.Deserialize<Posts>(json, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true // Ignore case when matching JSON properties to C# properties 
+        });
+
+        // Return the new comment 
+        return newPosts;
     }
 }

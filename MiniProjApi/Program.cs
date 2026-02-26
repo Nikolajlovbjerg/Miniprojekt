@@ -24,6 +24,8 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+
+app.UseRouting();
 app.UseCors("AllowAll");
 
 using (var scope = app.Services.CreateScope())
@@ -59,6 +61,8 @@ app.MapPut("/api/posts/{postid}/comments/{commentid}/upvote", (DataService servi
 
 app.MapPut("/api/posts/{postid}/comments/{commentid}/downvote", (DataService service, int postid, int commentid) => 
     service.VoteComment(commentid, false));
+
+
 
 app.Run();
 

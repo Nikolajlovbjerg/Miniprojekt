@@ -23,6 +23,6 @@ public class Comments
     public DateTime  Date { get; set; }
     public int UpVotes { get; set; }
     public int DownVotes { get; set; }
-    public string Content { get; set; }
+    public string? Content { get; set; }
     public string Username { get; set; }
 }

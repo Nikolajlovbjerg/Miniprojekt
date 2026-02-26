@@ -13,7 +13,12 @@ public class DataService
         this.db = db;
     }
 
-    // Henter alle tråde sorteret efter nyeste dato
+    public void SeedData()
+    {
+        
+    }
+    
+    
     public List<Posts> GetPosts()
     {
         return db.Posts
@@ -21,7 +26,6 @@ public class DataService
             .ToList();
     }
 
-    // Henter en specifik tråd inklusiv alle dens kommentarer
     public Posts? GetPost(int id)
     {
         return db.Posts
@@ -29,8 +33,7 @@ public class DataService
             .FirstOrDefault(p => p.PostId == id);
     }
 
-    // Opretter en ny tråd
-    public int CreatePost(string title, string? content, string? link, string username)
+    public void CreatePost(string title, string? content, string? link, string username)
     {
         var post = new Posts(title, DateTime.Now, username, 0, 0)
         {
@@ -43,7 +46,6 @@ public class DataService
         return post.PostId;
     }
 
-    // Tilføjer en kommentar til en tråd
     public void AddComment(int postId, string text, string username)
     {
         var post = db.Posts.Find(postId);
@@ -53,14 +55,24 @@ public class DataService
             db.SaveChanges();
         }
     }
-
-    // Stemme-logik (Upvote/Downvote)
+    
     public void VotePost(int postId, bool isUpvote)
     {
         var post = db.Posts.Find(postId);
         if (post != null)
         {
             if (isUpvote) post.UpVotes++; else post.DownVotes++;
+            db.SaveChanges();
+        }
+    }
+    
+    public void VoteComment(int commentId, bool upvote)
+    {
+        var comment = db.Set<Comments>().Find(commentId);
+    
+        if (comment != null)
+        {
+            if (upvote) comment.UpVotes++; else comment.DownVotes++;
             db.SaveChanges();
         }
     }

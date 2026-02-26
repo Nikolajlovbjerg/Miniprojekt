@@ -42,8 +42,6 @@ public class DataService
         };
         db.Posts.Add(post);
         db.SaveChanges();
-
-        return post.PostId;
     }
 
     public void AddComment(int postId, string text, string username)

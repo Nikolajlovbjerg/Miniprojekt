@@ -30,7 +30,7 @@ public class DataService
     }
 
     // Opretter en ny tråd
-    public void CreatePost(string title, string? content, string? link, string username)
+    public int CreatePost(string title, string? content, string? link, string username)
     {
         var post = new Posts(title, DateTime.Now, username, 0, 0)
         {
@@ -39,6 +39,8 @@ public class DataService
         };
         db.Posts.Add(post);
         db.SaveChanges();
+
+        return post.PostId;
     }
 
     // Tilføjer en kommentar til en tråd

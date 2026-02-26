@@ -15,10 +15,10 @@ public class DataService
 
     public void SeedData()
     {
-        
+
     }
-    
-    
+
+
     public List<Posts> GetPosts()
     {
         return db.Posts
@@ -55,7 +55,7 @@ public class DataService
             db.SaveChanges();
         }
     }
-    
+
     public void VotePost(int postId, bool isUpvote)
     {
         var post = db.Posts.Find(postId);
@@ -65,11 +65,11 @@ public class DataService
             db.SaveChanges();
         }
     }
-    
+
     public void VoteComment(int commentId, bool upvote)
     {
         var comment = db.Set<Comments>().Find(commentId);
-    
+
         if (comment != null)
         {
             if (upvote) comment.UpVotes++; else comment.DownVotes++;

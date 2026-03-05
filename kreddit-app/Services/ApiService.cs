@@ -55,19 +55,33 @@ public class ApiService
     {
         string url = $"{baseAPI}posts/{id}/upvote/";
 
-        // Post JSON to API, save the HttpResponseMessage
         HttpResponseMessage msg = await http.PutAsJsonAsync(url, "");
 
-        // Get the JSON string from the response
-        string json = msg.Content.ReadAsStringAsync().Result;
+        string json = await msg.Content.ReadAsStringAsync();
 
-        // Deserialize the JSON string to a Post object
-        Posts? updatedPost = JsonSerializer.Deserialize<Posts>(json, new JsonSerializerOptions {
-            PropertyNameCaseInsensitive = true // Ignore case when matching JSON properties to C# properties
+        if (string.IsNullOrWhiteSpace(json))
+            return null;
+
+        return JsonSerializer.Deserialize<Posts>(json, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
         });
+    }
+    public async Task<Posts?> DownvotePost(int id)
+    {
+        string url = $"{baseAPI}posts/{id}/downvote/";
 
-        // Return the updated post (vote increased)
-        return updatedPost;
+        HttpResponseMessage msg = await http.PutAsJsonAsync(url, "");
+
+        string json = await msg.Content.ReadAsStringAsync();
+
+        if (string.IsNullOrWhiteSpace(json))
+            return null;
+
+        return JsonSerializer.Deserialize<Posts>(json, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        });
     }
 
     public async Task<Comments> VoteComment(int postId, int commentId)

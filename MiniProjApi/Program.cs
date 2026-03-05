@@ -70,6 +70,5 @@ app.MapPut("/api/posts/{id}/upvote", (DataService service, int id) => {
 
 app.Run();
 
-// 6. DTOs - Property names MUST match the Blazor anonymous objects exactly
 public record CreatePostRequest(string titel, string content, string? username);
 public record CreateCommentRequest(string content, int userId);

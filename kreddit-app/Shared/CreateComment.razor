@@ -1,5 +1,6 @@
 @using kreddit_app.Data;
 @inject ApiService apiService
+@inject NavigationManager Nav
 
 <div>
     <br/>
@@ -11,9 +12,11 @@
 @code {
 
     // PostId is passed in from the parent component. See how in PostItem.razor.
-    [Parameter]
+    [Parameter] 
+    
     public int PostId { get; set; }
     private string? content;
+    private string? username;
     private async void CreateNewComment()
     {
         if (content == null)
@@ -21,7 +24,8 @@
             return;
         }
         // TODO: Provide list of users from dropdown, or maybe just convert
-        // from username to UserId
-        await apiService.CreateComment(content, PostId, 2); // UserId: 2
+        await apiService.CreateComment(content, PostId, username); // UserId: 2
+        StateHasChanged();
+        Nav.NavigateTo($"/post/{PostId}", true);
     }
 }

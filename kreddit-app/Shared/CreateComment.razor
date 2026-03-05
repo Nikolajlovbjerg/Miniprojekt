@@ -25,7 +25,7 @@
             return;
         }
 
-        if (username != null) await apiService.CreateComment(content, PostId, username); // UserId: 2
+        if (username != null) await apiService.CreateComment(content, PostId, username);
         StateHasChanged();
         Nav.NavigateTo($"/post/{PostId}", true);
     }

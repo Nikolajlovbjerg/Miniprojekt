@@ -7,8 +7,11 @@ See how the links are made in 'PostList.razor'.
 @using kreddit_app.Data;
 @using kreddit_app.Model;
 @inject ApiService apiService
+@inject NavigationManager Nav
 
 <PageTitle>Kreddit</PageTitle>
+
+<a href="/">← Go back</a>
 
 <style>
 div.contents {
@@ -81,4 +84,10 @@ else
         var downvotedComment = await apiService.downVoteComment(postId, commentId);
         Post = await apiService.GetPost(PostId);
     }
+
+    private void Forside()
+    {
+        Nav.NavigateTo("/");
+    }
+
 }

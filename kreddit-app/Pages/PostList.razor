@@ -19,9 +19,7 @@ else
             <th>Title</th>
             <th>Content</th>
             <th>Upvotes</th>
-            <th>Upvote knap</th>
             <th>Downvotes</th>
-            <th>DownvoteKnap</th>
         </tr>
         @foreach (var post in posts)
         {
@@ -29,15 +27,10 @@ else
                 <td><a href="/post/@post.PostId">@post.Title</a></td>
                 <td>@post.Content</td>
 
-                <td class="upvote-box">@post.UpVotes</td>
-                <td>
-                    <button @onclick="() => Upvote(post.PostId)">Upvote</button>
-                </td>
+                <td class="upvote-box">@post.UpVotes │ <button @onclick="() => Upvote(post.PostId)">Upvote</button></td>
 
-                <td class="downvote-box">-@post.DownVotes</td>
-                <td>
-                    <button @onclick="() => Downvote(post.PostId)">Downvote</button>
-                </td>
+                <td class="downvote-box">-@post.DownVotes │ <button @onclick="() => Downvote(post.PostId)
+">Downvote</button></td>
             </tr>
         }
     </table>

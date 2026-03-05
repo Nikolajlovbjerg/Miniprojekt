@@ -6,6 +6,7 @@
 <div>
     <br />
     <h3>Create a new Post</h3>
+    <input placeholder="User" type="input" id="postUsername" @bind-value="postUsername" />
     <input placeholder="Title" type="input" id="postTitle" @bind-value="postTitle" />
     <input placeholder="Content" type="input" id="postContent" @bind-value="postContent" />
     <button id="createPostButton" type="button" @onclick="CreateNewPost">Create Post</button>

@@ -61,7 +61,7 @@ app.MapPost("/api/posts", (DataService service, CreatePostRequest req) => {
 // POST Comment: Matches Blazor 'new { content, userId }'
 app.MapPost("/api/posts/{id}/comments", (DataService service, int id, CreateCommentRequest req) => {
     // We use userId as the username string since that's what Blazor is sending
-    service.AddComment(id, req.content, $"User {req.userId}");
+    service.AddComment(id, req.content, req.username);
     return Results.Created($"/api/posts/{id}/comments", req);
 });
 
@@ -90,4 +90,4 @@ app.MapPost("/api/posts/{postId}/comments/{commentId}/downvote", (DataService se
 app.Run();
 
 public record CreatePostRequest(string titel, string content, string? username);
-public record CreateCommentRequest(string content, int userId);
+public record CreateCommentRequest(string content, string? username);

@@ -28,7 +28,7 @@ else
 {
     <div class="contents">
         <h4>@Post.Title</h4>
-        <p><strong>User: @Post.Username, Votes: @(Post.UpVotes - Post.DownVotes)</strong></p>
+        <p><strong>User: @Post.Username, Votes: Upvotes: @(Post.UpVotes)┊ Downvotes: -@(Post.DownVotes)</strong></p>
         <p>@Post.Content</p>
     </div>
 
@@ -39,19 +39,17 @@ else
             <th>User</th>
             <th>Comment</th>
             <th>Upvotes</th>
-            <th>Upvote knap</th>
             <th>Downvotes</th>
-            <th>DownvoteKnap</th>
+            <th>Date</th>
         </tr>
         @foreach (var comment in Post.Comments)
         {
             <tr>
                 <td>@comment.Username</td>
                 <td>@comment.Content</td>
-                <td>@comment.UpVotes</td>
-                <td><button @onclick="() => Upvote(comment.PostId, comment.CommentId)">Upvote</button></td>
-                <td>-@comment.DownVotes</td>
-                <td><button @onclick="() => Downvote(comment.PostId, comment.CommentId)">Downvote</button></td>
+                <td>@comment.UpVotes <button @onclick="() => Upvote(comment.PostId, comment.CommentId)">↑</button></td>
+                <td>-@comment.DownVotes <button @onclick="() => Downvote(comment.PostId, comment.CommentId)">↓</button></td>
+                <td>@comment.Date</td>
             </tr>
         }
     </table>

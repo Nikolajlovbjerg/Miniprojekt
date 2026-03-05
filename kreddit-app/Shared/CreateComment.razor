@@ -5,6 +5,7 @@
 <div>
     <br/>
     <h3>Write a comment</h3>
+    <input placeholder="User" type="input" id="commentUsername" @bind-value="username"/>
     <input placeholder="Content" type="input" id="content" @bind-value="content"/>
     <button id="createPostButton" type="button" @onclick="CreateNewComment">Post comment</button>
 </div>
@@ -23,8 +24,8 @@
         {
             return;
         }
-        // TODO: Provide list of users from dropdown, or maybe just convert
-        await apiService.CreateComment(content, PostId, username); // UserId: 2
+
+        if (username != null) await apiService.CreateComment(content, PostId, username); // UserId: 2
         StateHasChanged();
         Nav.NavigateTo($"/post/{PostId}", true);
     }

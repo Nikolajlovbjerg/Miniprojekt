@@ -40,7 +40,9 @@ app.UseAuthorization();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<PostsContext>();
+    var dataService = scope.ServiceProvider.GetRequiredService<DataService>();
     db.Database.EnsureCreated();
+    dataService.SeedData();
 }
 
 // 5. Routes
@@ -50,13 +52,11 @@ app.MapGet("/api/posts/{id}", (DataService service, int id) => {
     return post != null ? Results.Ok(post) : Results.NotFound();
 });
 
-// POST Post: Matches Blazor 'new { titel, content, username }'
 app.MapPost("/api/posts", (DataService service, CreatePostRequest req) => {
     service.CreatePost(req.titel, req.content, null, req.username ?? "Anonymous");
     return Results.Created($"/api/posts", req);
 });
 
-// POST Comment: Matches Blazor 'new { content, userId }'
 app.MapPost("/api/posts/{id}/comments", (DataService service, int id, CreateCommentRequest req) => {
     // We use userId as the username string since that's what Blazor is sending
     service.AddComment(id, req.content, $"User {req.userId}");
@@ -65,6 +65,18 @@ app.MapPost("/api/posts/{id}/comments", (DataService service, int id, CreateComm
 
 app.MapPut("/api/posts/{id}/upvote", (DataService service, int id) => {
     service.VotePost(id, true);
+    return Results.Ok();
+});
+
+app.MapPut("/api/posts/{postId}/comments/{commentId}/upvote", (DataService service, int postId, int commentId) =>
+{
+    service.VoteComment(postId, commentId, true);
+    return Results.Ok();
+});
+
+app.MapPut("/api/posts/{postId}/comments/{commentId}/downvote", (DataService service, int postId, int commentId) =>
+{
+    service.VoteComment(postId, commentId, true);
     return Results.Ok();
 });
 

@@ -3,6 +3,7 @@
 @using kreddit_app.Data;
 @using kreddit_app.Model;
 @inject ApiService apiService
+@inject NavigationManager Nav
 
 @using Microsoft.Extensions.Configuration
 @inject IConfiguration Configuration
@@ -50,6 +51,8 @@ else
     private async void Upvote(int id)
     {
         var updatedPost = await apiService.UpvotePost(id);
+        StateHasChanged();
+        Nav.NavigateTo("/", true);
     }
 
     private async void Downvote(int id)

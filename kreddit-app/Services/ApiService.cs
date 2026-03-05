@@ -70,6 +70,22 @@ public class ApiService
         return updatedPost;
     }
 
+    public async Task<Comments> VoteComment(int postId, int commentId)
+    {
+        string url = $"{baseAPI}posts/{postId}/comments/{commentId}/vote/";
+        HttpResponseMessage msg = await http.PostAsJsonAsync(url, "");
+        string json = msg.Content.ReadAsStringAsync().Result;
+        if (string.IsNullOrWhiteSpace(json))
+        {
+            return null;
+        }
+        Comments? updatedComment = JsonSerializer.Deserialize<Comments>(json, new JsonSerializerOptions 
+        {
+            PropertyNameCaseInsensitive = true
+        });
+        return updatedComment;
+    }
+
     public async Task<Posts> CreatePost(string titel, string content, string username)
     {
         string url = $"{baseAPI}posts";
@@ -79,6 +95,7 @@ public class ApiService
         {
             // USE await HERE, NOT .Result
             string json = await msg.Content.ReadAsStringAsync();
+            
             return JsonSerializer.Deserialize<Posts>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
         return null;

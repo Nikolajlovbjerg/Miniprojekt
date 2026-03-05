@@ -15,7 +15,24 @@ public class DataService
 
     public void SeedData()
     {
+        if (db.Posts.Any())
+        {
+            return; 
+        }
 
+        // 1. Create a Post
+        var post = new Posts("Hej hej det virker", DateTime.Now.AddDays(-2), "Guru", 10, 2)
+        {
+            Content = "I am god"
+        };
+
+        // 2. Add some comments to it
+        post.Comments.Add(new Comments("Jack", 5, 0, "Cool", DateTime.Now.AddDays(-1)));
+        post.Comments.Add(new Comments("Jens", 2, 1000, "Trash", DateTime.Now.AddHours(-5)));
+
+        // 4. Add to DB and Save
+        db.Posts.AddRange(post);
+        db.SaveChanges();
     }
 
 
@@ -64,7 +81,7 @@ public class DataService
         }
     }
 
-    public void VoteComment(int commentId, bool upvote)
+    public void VoteComment(int postid, int commentId, bool upvote)
     {
         var comment = db.Set<Comments>().Find(commentId);
 

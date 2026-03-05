@@ -68,6 +68,11 @@ app.MapPut("/api/posts/{id}/upvote", (DataService service, int id) => {
     return Results.Ok();
 });
 
+app.MapPut("/api/posts/{id}/downvote", (DataService service, int id) => {
+    service.VotePost(id, false);
+    return Results.Ok();
+});
+
 app.Run();
 
 // 6. DTOs - Property names MUST match the Blazor anonymous objects exactly

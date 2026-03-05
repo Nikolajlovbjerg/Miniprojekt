@@ -17,20 +17,26 @@ else
         <tr>
             <th>Title</th>
             <th>Content</th>
-            <th colspan="3">Votes</th>
+            <th>Upvotes</th>
+            <th>Upvote knap</th>
+            <th>Downvotes</th>
+            <th>DownvoteKnap</th>
         </tr>
         @foreach (var post in posts)
         {
             <tr>
-                <!-- 
-                    These a href links will match the route in the page 'PostItem.razor'.
-                    The route is defined as "/post/{id}" and the id is the post id.
-                -->
                 <td><a href="/post/@post.PostId">@post.Title</a></td>
                 <td>@post.Content</td>
-                <td>@(post.UpVotes - post.DownVotes)</td>
-                <td><button @onclick="() => Upvote(post.PostId)">Upvote</button></td>
-                <td><button @onclick="() => Downvote(post.PostId)">Downvote</button></td>
+
+                <td class="upvote-box">@post.UpVotes</td>
+                <td>
+                    <button @onclick="() => Upvote(post.PostId)">Upvote</button>
+                </td>
+
+                <td class="downvote-box">-@post.DownVotes</td>
+                <td>
+                    <button @onclick="() => Downvote(post.PostId)">Downvote</button>
+                </td>
             </tr>
         }
     </table>
@@ -50,10 +56,12 @@ else
     private async void Upvote(int id)
     {
         var updatedPost = await apiService.UpvotePost(id);
+        posts = await apiService.GetPosts();
     }
 
     private async void Downvote(int id)
     {
-        Console.WriteLine("Not implemented 😪");
+        var downvotedPost = await apiService.DownvotePost(id);
+        posts = await apiService.GetPosts();
     }
 }

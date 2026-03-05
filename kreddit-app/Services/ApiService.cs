@@ -100,6 +100,22 @@ public class ApiService
         return updatedComment;
     }
 
+    public async Task<Comments> downVoteComment(int postId, int commentId)
+    {
+        string url = $"{baseAPI}posts/{postId}/comments/{commentId}/downvote/";
+        HttpResponseMessage msg = await http.PostAsJsonAsync(url, "");
+        string json = msg.Content.ReadAsStringAsync().Result;
+        if (string.IsNullOrWhiteSpace(json))
+        {
+            return null;
+        }
+        Comments? downvoteComment = JsonSerializer.Deserialize<Comments>(json, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        });
+        return downvoteComment;
+    }
+
     public async Task<Posts> CreatePost(string titel, string content, string username)
     {
         string url = $"{baseAPI}posts";

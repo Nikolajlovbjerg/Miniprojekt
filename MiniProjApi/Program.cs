@@ -75,15 +75,15 @@ app.MapPut("/api/posts/{id}/downvote", (DataService service, int id) => {
     return Results.Ok();
 });
 
-app.MapPut("/api/posts/{postId}/comments/{commentId}/upvote", (DataService service, int postId, int commentId) =>
+app.MapPost("/api/posts/{postId}/comments/{commentId}/upvote", (DataService service, int postId, int commentId) =>
 {
     service.VoteComment(postId, commentId, true);
     return Results.Ok();
 });
 
-app.MapPut("/api/posts/{postId}/comments/{commentId}/downvote", (DataService service, int postId, int commentId) =>
+app.MapPost("/api/posts/{postId}/comments/{commentId}/downvote", (DataService service, int postId, int commentId) =>
 {
-    service.VoteComment(postId, commentId, true);
+    service.VoteComment(postId, commentId, false);
     return Results.Ok();
 });
 

@@ -86,7 +86,7 @@ public class ApiService
 
     public async Task<Comments> VoteComment(int postId, int commentId)
     {
-        string url = $"{baseAPI}posts/{postId}/comments/{commentId}/vote/";
+        string url = $"{baseAPI}posts/{postId}/comments/{commentId}/upvote/";
         HttpResponseMessage msg = await http.PostAsJsonAsync(url, "");
         string json = msg.Content.ReadAsStringAsync().Result;
         if (string.IsNullOrWhiteSpace(json))

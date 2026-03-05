@@ -46,7 +46,7 @@ else
                 <td>@comment.Username</td>
                 <td>@comment.Content</td>
                 <td>@(comment.UpVotes - comment.DownVotes)</td>
-                <td><button @onclick="() => Upvote(comment.CommentId, comment.PostId)">Upvote</button></td>
+                <td><button @onclick="() => Upvote(comment.PostId, comment.CommentId)">Upvote</button></td>
                 <td><button @onclick="() => Downvote(comment.CommentId)">Downvote</button></td>
             </tr>
         }
@@ -68,9 +68,10 @@ else
     {
         Post = await apiService.GetPost(PostId);
     }
-    private async void Upvote(int postId, int commentId)
+    private async Task Upvote(int postId, int commentId) 
     {
         var updatedComment = await apiService.VoteComment(postId, commentId);
+        Post = await apiService.GetPost(PostId); 
         StateHasChanged();
     }
 

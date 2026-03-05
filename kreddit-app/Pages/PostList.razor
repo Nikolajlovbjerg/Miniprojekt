@@ -58,8 +58,6 @@ else
     {
         var updatedPost = await apiService.UpvotePost(id);
         posts = await apiService.GetPosts();
-        StateHasChanged();
-        Nav.NavigateTo("/", true);
     }
 
     private async void Downvote(int id)

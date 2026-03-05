@@ -83,12 +83,21 @@ public class DataService
 
     public void VoteComment(int postid, int commentId, bool upvote)
     {
-        var comment = db.Set<Comments>().Find(commentId);
+        var post = db.Posts
+            .Include(p => p.Comments)
+            .FirstOrDefault(p => p.PostId == postid);
 
-        if (comment != null)
+        if (post != null)
         {
-            if (upvote) comment.UpVotes++; else comment.DownVotes++;
-            db.SaveChanges();
+            // 2. Find the specific comment inside that post's collection
+            var comment = post.Comments.FirstOrDefault(c => c.CommentId == commentId);
+
+            if (comment != null)
+            {
+                // 3. Apply the vote to that specific comment object
+                if (upvote) comment.UpVotes++; else comment.DownVotes++;
+                db.SaveChanges();
+            }
         }
     }
 }
